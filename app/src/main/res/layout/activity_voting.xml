@@ -6,37 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".activity.VotingActivity">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/voteInfoSelection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_below="@+id/voteInfoSelection"
+        android:fillViewport="true">
 
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <LinearLayout
                 android:id="@+id/canContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical" />
+
+        </LinearLayout>
 
 
-            </LinearLayout>
-
-        </ScrollView>
-
-
-    </RelativeLayout>
+    </ScrollView>
 
     <ImageView
+        android:id="@+id/voting_cover_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/image1"
-        android:id="@+id/voting_cover_image"/>
+        android:src="@drawable/image1" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/summaryListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:background="@android:color/transparent"
+        android:scrollbars="vertical" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp">
+
+        <Button
+            android:id="@+id/previousBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 
 </RelativeLayout>

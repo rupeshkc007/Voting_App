@@ -5,6 +5,8 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class GeneralUtils {
 
@@ -32,5 +34,11 @@ public class GeneralUtils {
 
     public static void shortMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static String getDateTime() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yMMddHHmmss");
+        return df.format(c.getTime());
     }
 }

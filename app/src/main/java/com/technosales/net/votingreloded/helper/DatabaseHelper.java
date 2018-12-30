@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.technosales.net.votingreloded.pojoModels.CandidatesList;
+import com.technosales.net.votingreloded.pojoModels.SummaryList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -204,6 +205,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
         Log.i("listszie", "" + list.size());
+        return list;
+    }
+
+    /*get postname and max count*/
+    public String getPost(int postId) {
+        String data = "";
+        String sql = "SELECT " + POST_NAME_NEPALI + " FROM " + POST_TABLE + " WHERE " + POST_ID + " =" + postId;
+
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            data = c.getString(c.getColumnIndex(POST_NAME_NEPALI));
+        }
+        c.close();
+
+        return data;
+    }
+
+    public int getMax(int postId) {
+        int data = 0;
+        String sql = "SELECT " + POST_COUNT + " FROM " + POST_TABLE + " WHERE " + POST_ID + " =" + postId;
+
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            data = c.getInt(c.getColumnIndex(POST_COUNT));
+        }
+        c.close();
+
+        return data;
+    }
+
+    public List<SummaryList> summaryLists() {
+        String sql = "SELECT * FROM " + SUMMARY_TABLE+ " ORDER BY sum_post_id";
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+
+        ArrayList<SummaryList> list = new ArrayList<SummaryList>();
+        while (c.moveToNext()) {
+            SummaryList summaryList = new SummaryList();
+            summaryList.setPostId(c.getInt(c.getColumnIndex(SUMMARY_POST_ID)));
+            summaryList.setPostNepali(c.getString(c.getColumnIndex(SUMMARY_POST_NEPALI_NAME)));
+            summaryList.setCanName(c.getString(c.getColumnIndex(SUMMARY_CAN_NEPALI_NAME)));
+            summaryList.setCanId(c.getString(c.getColumnIndex(SUMMARY_CAN_ID)));
+            list.add(summaryList);
+        }
+        c.close();
+        Log.i("summarySize", "" + list.size());
         return list;
     }
 }
