@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">VotingReloded</string>
+    <string name="enter_device_number">Enter Device Number</string>
+    <string name="number_of_columns">Number of columns</string>
+    <string name="enter">Enter</string>
+    <string name="clear_data">Clear Data</string>
+    <string name="inserting_data">Inserting Data</string>
+    <string name="data_inserted">Data Inserted</string>
+</resources>
