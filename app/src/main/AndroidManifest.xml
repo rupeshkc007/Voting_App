@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.StartActivity"
+            android:name=".votingVisuallyImpaired.StartActivityVisual"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
         <receiver android:name=".receiver.AutoStartReceiver">
             <intent-filter>
@@ -34,8 +33,9 @@
         </receiver>
 
         <activity
-            android:name=".activity.VotingActivity"
+            android:name=".votingVisuallyImpaired.VotingActivityVisual"
             android:screenOrientation="landscape" />
+        <activity android:name=".votingVisuallyImpaired.VoteResultsActivity"/>
     </application>
 
 </manifest>

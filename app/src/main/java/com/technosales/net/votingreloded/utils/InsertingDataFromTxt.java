@@ -1,18 +1,17 @@
 package com.technosales.net.votingreloded.utils;
 
 import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
+import android.view.View;
 
 import com.technosales.net.votingreloded.R;
 import com.technosales.net.votingreloded.activity.VotingActivity;
 import com.technosales.net.votingreloded.helper.DatabaseHelper;
+import com.technosales.net.votingreloded.votingVisuallyImpaired.VotingActivityVisual;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
@@ -102,7 +101,12 @@ public class InsertingDataFromTxt {
 
                 }
                 GeneralUtils.shortMessage(context, context.getString(R.string.data_inserted));
-                ((VotingActivity) context).voting_cover_image.setImageResource(R.drawable.image2);
+               /* ((VotingActivity) context).voting_cover_image.setImageResource(R.drawable.image2);
+                ((VotingActivity) context).voterCountTxt.setVisibility(View.VISIBLE);
+                ((VotingActivity) context).voterCountTxt.setText(context.getString(R.string.total_voters)+"0");*/
+                ((VotingActivityVisual) context).voting_cover_image.setImageResource(R.drawable.image2);
+                ((VotingActivityVisual) context).voterCountTxt.setVisibility(View.VISIBLE);
+                ((VotingActivityVisual) context).voterCountTxt.setText(context.getString(R.string.total_voters) + "0");
 
             } catch (IOException e) {
                 e.printStackTrace();

@@ -115,29 +115,12 @@
     </LinearLayout>
 
 
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/candidateRecycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/postNameCountLayout"
-        android:fillViewport="true"
-        android:padding="5dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/canContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
-
-        </LinearLayout>
-
-
-    </ScrollView>
+        android:padding="5dp" />
 
 
     <ImageView
@@ -264,8 +247,8 @@
     <include
         layout="@layout/input_password"
         android:layout_width="match_parent"
-        android:layout_margin="100dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:layout_margin="100dp"
+        android:visibility="gone" />
 </RelativeLayout>

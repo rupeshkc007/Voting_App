@@ -9,8 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.technosales.net.votingreloded.pojoModels.CandidatesList;
+import com.technosales.net.votingreloded.pojoModels.PostList;
 import com.technosales.net.votingreloded.pojoModels.SummaryList;
+import com.technosales.net.votingreloded.utils.GeneralUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,12 +150,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.i("InsertingData", "RemovingPost-" + postId);
     }
 
-    public void removeCandidates() {
+    public void clearCandidates() {
         String sql = "DELETE  FROM " + CANDIDATES_TABLE;
         getWritableDatabase().execSQL(sql);
     }
 
-    public void removePosts() {
+    public void clearPosts() {
         String sql = "DELETE  FROM " + POST_TABLE;
         getWritableDatabase().execSQL(sql);
     }
@@ -236,7 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<SummaryList> summaryLists() {
-        String sql = "SELECT * FROM " + SUMMARY_TABLE+ " ORDER BY sum_post_id";
+        String sql = "SELECT * FROM " + SUMMARY_TABLE + " ORDER BY sum_post_id";
         Cursor c = getWritableDatabase().rawQuery(sql, null);
 
         ArrayList<SummaryList> list = new ArrayList<SummaryList>();
@@ -252,4 +256,74 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.i("summarySize", "" + list.size());
         return list;
     }
+
+
+    public List<PostList> postLists() {
+        String sql = "SELECT * FROM " + POST_TABLE;
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+        ArrayList<PostList> lists = new ArrayList<>();
+        while (c.moveToNext()) {
+            PostList postList = new PostList();
+            postList.postId = (c.getInt(c.getColumnIndex(POST_ID)));
+            postList.postNepali = (c.getString(c.getColumnIndex(POST_NAME_NEPALI)));
+            postList.postEnglish = (c.getString(c.getColumnIndex(POST_NAME_ENGLISH)));
+            postList.postCount = (c.getInt(c.getColumnIndex(POST_COUNT)));
+            lists.add(postList);
+        }
+        c.close();
+        return lists;
+    }
+
+    public List<CandidatesList> resultProcess(int postId) {
+        String sql = "SELECT * FROM " + CANDIDATES_TABLE + " WHERE " + CANDIDATES_POST_ID + " =" + postId /*+ " ORDER BY votes DESC"*/;
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+
+        ArrayList<CandidatesList> list = new ArrayList<CandidatesList>();
+        while (c.moveToNext()) {
+            CandidatesList candidatesPojo = new CandidatesList();
+            candidatesPojo.can_post_id = (c.getInt(c.getColumnIndex(CANDIDATES_POST_ID)));
+            candidatesPojo.can_id = (c.getString(c.getColumnIndex(CANDIDATES_ID)));
+            candidatesPojo.can_eng_name = (c.getString(c.getColumnIndex(CANDIDATES_NAME_ENGLISH)));
+            candidatesPojo.can_nep_name = (c.getString(c.getColumnIndex(CANDIDATES_NAME_NEPALI)));
+            candidatesPojo.vote_count = (c.getInt(c.getColumnIndex(CANDIDATES_VOTE)));
+            list.add(candidatesPojo);
+        }
+        c.close();
+        Log.i("listszie", "" + list.size());
+        return list;
+    }
+
+    /*getwritabletxtData*/
+    public String getWriteData() {
+        String sql = "SELECT * FROM " + CANDIDATES_TABLE;
+        String data = "";
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            data = data + c.getString(c.getColumnIndex(CANDIDATES_ID)) + "\t" +/* c.getString(c.getColumnIndex(CANDIDATES_NAME_NEPALI)) +*/ "\t" + c.getString(c.getColumnIndex(CANDIDATES_VOTE)) + "\n";
+        }
+        c.close();
+        return data;
+
+    }
+
+    public void writeToFile(String device_id, String path) {
+        String data = getWriteData();
+        Log.i("Data", "Data:" + data);
+
+        File txtFile = new File(path + "/" + device_id + ".txt");
+
+        if (!txtFile.exists()) {
+            try {
+                txtFile.createNewFile();
+                GeneralUtils.writeInTxt(txtFile, data);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            GeneralUtils.writeInTxt(txtFile, data);
+        }
+
+    }
+
+
 }

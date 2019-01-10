@@ -8,18 +8,19 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/can_item_bg"
         android:orientation="vertical"
 
         >
 
 
         <LinearLayout
+            android:id="@+id/imageContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:padding="2dp"
-            android:weightSum="2"
-            android:id="@+id/imageContainer">
+            android:weightSum="2">
 
             <ImageView
                 android:id="@+id/candidateImage"
@@ -31,14 +32,15 @@
                 android:src="@drawable/dummy_person" />
 
 
-            <ImageView
-                android:id="@+id/swastikImage"
+            <TextView
+                android:id="@+id/resultsCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/swastik"
-                android:visibility="invisible" />
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
         </LinearLayout>
 

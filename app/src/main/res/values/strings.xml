@@ -3,7 +3,25 @@
     <string name="enter_device_number">Enter Device Number</string>
     <string name="number_of_columns">Number of columns</string>
     <string name="enter">Enter</string>
-    <string name="clear_data">Clear Data</string>
+    <string name="clear_data">Clear Old Data</string>
     <string name="inserting_data">Inserting Data</string>
     <string name="data_inserted">Data Inserted</string>
+    <string name="finised">सकियो</string>
+    <string name="not_finised">सकिएको छैन</string>
+    <string name="post_ma_kunai">पदमा कुनै</string>
+    <string name="matadaan_garnuhos">उम्मेद्वारलाई मतदान गर्नुहोस्</string>
+    <string name="prev">अघिल्लो</string>
+    <string name="next">पछिल्लो</string>
+    <string name="max_selection_reached">छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ</string>
+    <string name="post_ma_max_selection_reached">पदमा छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ</string>
+    <string name="wanna_change">मत सच्याउनु परेमा छाप लागेको कुनै उम्मेद्वारको नाममा पुन: थिच्नुहोस्</string>
+    <string name="total_voters">मतदाता संख्या\t</string>
+    <string name="start_activity">Go To Start</string>
+    <string name="password">Enter Password</string>
+    <string name="this_is_summary">तपाईंले छान्नु भएका उम्मेद्वारहरु यस प्रकार छन् |</string>
+    <string name="complete_vote">भोटिंग बटन थिची मतदान सम्पन्न गर्नुहोस् अथवा तपाईंले छान्नु भएका उम्मेद्वारहरुको नाम सुन्नको लागि पछिल्लो बटन थिच्नुहोस् |</string>
+    <string name="change_tts_vote">मत सच्याउनु परेमा पुन: भोटिंग बटन थिच्नुहोस्|</string>
+    <string name="non_selected">तपाईंले कुनै पनि उम्मेदवार छान्नुभएको छैन |</string>
+    <string name="matadaan_safal_vayo">तपाईंको मतदान सफल भयो|</string>
+
 </resources>
