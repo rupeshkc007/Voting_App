@@ -12,8 +12,8 @@
     <string name="matadaan_garnuhos">उम्मेद्वारलाई मतदान गर्नुहोस्</string>
     <string name="prev">अघिल्लो</string>
     <string name="next">पछिल्लो</string>
-    <string name="max_selection_reached">छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ</string>
-    <string name="post_ma_max_selection_reached">पदमा छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ</string>
+    <string name="max_selection_reached">छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ |</string>
+    <string name="post_ma_max_selection_reached">पदमा छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ |</string>
     <string name="wanna_change">मत सच्याउनु परेमा छाप लागेको कुनै उम्मेद्वारको नाममा पुन: थिच्नुहोस्</string>
     <string name="total_voters">मतदाता संख्या\t</string>
     <string name="start_activity">Go To Start</string>

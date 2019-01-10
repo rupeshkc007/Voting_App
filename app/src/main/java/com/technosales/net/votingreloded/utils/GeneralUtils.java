@@ -152,9 +152,13 @@ public class GeneralUtils {
             } else {
                 matched = false;
             }
-        }else {
-            matched =false;
+        } else {
+            matched = false;
         }
         return matched;
+    }
+
+    public static long getDelayTime(int charLength) {
+        return charLength / 12 * 1000 + 3000;
     }
 }

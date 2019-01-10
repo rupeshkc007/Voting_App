@@ -124,6 +124,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
     private boolean nextNprev = false;
     private boolean keyPresssed = false;
     private String speakSummary;
+    private boolean reachedMaxVisual = false;
 
 
     @Override
@@ -172,6 +173,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
     private void getNameListFromPost(int post_id) {
         visualPosition = -1;
+        reachedMaxVisual = false;
         speakSummary = "";
         postId = post_id;
         Log.i("getPostID", post_id + "");
@@ -208,8 +210,18 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
             matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
             selectCountTxt.setText(String.valueOf(selectCount));
 
-            textToSpeech.speak(postName + " " + getString(R.string.post_ma_kunai) + " " + String.valueOf(selectCount) + " " + getString(R.string.matadaan_garnuhos), TextToSpeech.QUEUE_FLUSH, null);
-            intervelCheck();
+            String ttsChar = postName + " " + getString(R.string.post_ma_kunai) + " " + String.valueOf(selectCount) + " " + getString(R.string.matadaan_garnuhos);
+            textToSpeech.speak(ttsChar, TextToSpeech.QUEUE_FLUSH, null);
+
+//            int ttsChar = postName.length() + getString(R.string.post_ma_kunai).length() + getString(R.string.matadaan_garnuhos).length() + 4;
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (visualPosition < 0 && selectCount > 0)
+                        textToSpeech.speak(postName + " " + getString(R.string.post_ma_kunai) + " " + String.valueOf(selectCount) + " " + getString(R.string.matadaan_garnuhos), TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }, GeneralUtils.getDelayTime(ttsChar.length()));
         }
 
 
@@ -741,7 +753,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_8 && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
 
             Log.i("ViewPosSize", "" + visualPosition + "::" + candidatesLists.size());
-            if (((candidatesLists.size() - 1) - visualPosition) > -1 && (visualPosition - numberOfColumns) > -1) {
+            if (((candidatesLists.size() - 1) - visualPosition) > -1 && (visualPosition - numberOfColumns) > -1 && !reachedMaxVisual) {
                 visualPosition = visualPosition - numberOfColumns;
 
                 scrollVisualPosition(visualPosition);
@@ -749,7 +761,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
             }
 
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_5 && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
-            if (visualPosition < (candidatesLists.size() - numberOfColumns)) {
+            if (visualPosition < (candidatesLists.size() - numberOfColumns) && !reachedMaxVisual) {
                 visualPosition = visualPosition + numberOfColumns;
 
                 scrollVisualPosition(visualPosition);
@@ -759,11 +771,11 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_4 && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
             if (summaryListView.getVisibility() == View.GONE) {
 
-                if (visualPosition > 0 && !nextNprev) {
+                if (visualPosition > 0 && !nextNprev && !reachedMaxVisual) {
                     visualPosition = visualPosition - 1;
 
                     scrollVisualPosition(visualPosition);
-                } else if (visualPosition <= 0 && !nextNprev) {
+                } else if (visualPosition <= 0 && !nextNprev && !reachedMaxVisual) {
                     if (postId > 1)
                         previousList();
                 }
@@ -773,12 +785,12 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_6 && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
             if (summaryListView.getVisibility() == View.GONE) {
-                if (visualPosition < candidatesLists.size() - 1 && !nextNprev) {
+                if (visualPosition < candidatesLists.size() - 1 && !nextNprev && !reachedMaxVisual) {
                     visualPosition = visualPosition + 1;
 
                     scrollVisualPosition(visualPosition);
 
-                } else if (visualPosition == candidatesLists.size() - 1 && !nextNprev) {
+                } else if (visualPosition == candidatesLists.size() - 1 && !nextNprev && !reachedMaxVisual) {
                     nextList();
                 }
             } else {
@@ -798,7 +810,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
                 textToSpeech.speak(getString(R.string.matadaan_safal_vayo), TextToSpeech.QUEUE_FLUSH, null);
             } else {
                 if (visualPosition > -1) {
-                    if (!keyPresssed)
+                    if (!keyPresssed && !reachedMaxVisual)
                         voteFromKey(visualPosition);
                 }
 
@@ -829,7 +841,8 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
                     if (view.findViewById(R.id.candidateSwastik).getVisibility() == View.INVISIBLE) {
                         if (selectCount > 0) {
                             view.findViewById(R.id.candidateSwastik).setVisibility(View.VISIBLE);
-                            textToSpeech.speak(postName + " पदमा " + candidatesLists.get(pos).can_nep_name + " लाई मतदान गर्नुभयो", TextToSpeech.QUEUE_FLUSH, null);
+                            String ttsChar = postName + " पदमा " + candidatesLists.get(pos).can_nep_name + " लाई मतदान गर्नुभयो |";
+                            textToSpeech.speak(ttsChar, TextToSpeech.QUEUE_FLUSH, null);
                             selectCount--;
                             selectCountTxt.setText(String.valueOf(selectCount));
                             postNameTxtView.setText(postName);
@@ -839,26 +852,27 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
                             databaseHelper.setSummary(postId, postName, candidatesLists.get(pos).can_nep_name, candidatesLists.get(pos).can_id);
 
                             if (selectCount == 0) {
-                                overLayout.setVisibility(View.VISIBLE);
 
+                                overLayout.setVisibility(View.VISIBLE);
+                                reachedMaxVisual = true;
 
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-
                                         nextList();
 
                                     }
-                                }, 5000);
+                                }, GeneralUtils.getDelayTime(ttsChar.length()));
 
                             }
                         } else if (selectCount == 0) {
-                            if (!toastShown)
-                                showToast(view);
+                            if (!reachedMaxVisual)
+                                textToSpeech.speak(getString(R.string.max_selection_reached), TextToSpeech.QUEUE_FLUSH, null);
+
                         }
 
                     } else {
-                        textToSpeech.speak(postName + " पद बाट  " + candidatesLists.get(pos).can_nep_name + " को मत हटाउनु भयो ", TextToSpeech.QUEUE_FLUSH, null);
+                        textToSpeech.speak(postName + " पद बाट  " + candidatesLists.get(pos).can_nep_name + " को मत हटाउनु भयो |", TextToSpeech.QUEUE_FLUSH, null);
                         view.findViewById(R.id.candidateSwastik).setVisibility(View.INVISIBLE);
                         selectCount++;
                         selectCountTxt.setText(String.valueOf(selectCount));
@@ -867,7 +881,6 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
                         matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
                         vote.put(candidatesLists.get(pos).can_id, "0");
                         databaseHelper.removeFromSummary(candidatesLists.get(pos).can_id);
-
                     }
                     preferences.edit().putInt(postName, selectCount).apply();
 
