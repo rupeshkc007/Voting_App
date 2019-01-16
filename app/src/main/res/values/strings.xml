@@ -19,7 +19,7 @@
     <string name="start_activity">Go To Start</string>
     <string name="password">Enter Password</string>
     <string name="this_is_summary">तपाईंले छान्नु भएका उम्मेद्वारहरु यस प्रकार छन् |</string>
-    <string name="complete_vote">भोटिंग बटन थिची मतदान सम्पन्न गर्नुहोस् अथवा तपाईंले छान्नु भएका उम्मेद्वारहरुको नाम सुन्नको लागि पछिल्लो बटन थिच्नुहोस् |</string>
+    <string name="complete_vote">\t तपाईंले छान्नु भएका उम्मेद्वारहरुको नाम सुन्नको लागि पछिल्लो बटन थिच्नुहोस् अथवा भोटिंग बटन थिची मतदान सम्पन्न गर्नुहोस्|</string>
     <string name="change_tts_vote">मत सच्याउनु परेमा पुन: भोटिंग बटन थिच्नुहोस्|</string>
     <string name="non_selected">तपाईंले कुनै पनि उम्मेदवार छान्नुभएको छैन |</string>
     <string name="matadaan_safal_vayo">तपाईंको मतदान सफल भयो|</string>

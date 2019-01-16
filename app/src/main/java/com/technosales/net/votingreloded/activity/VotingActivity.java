@@ -75,7 +75,6 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
     private Button nextBtn, previousBtn;
     private String postName;
     private int selectCount;
-    private TextView voteInfoSelection;
     private View rootView;
     private File deviceScreenShotPath;
     private String dateTime;

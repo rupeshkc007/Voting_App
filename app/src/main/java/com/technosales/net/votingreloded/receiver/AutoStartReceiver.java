@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.technosales.net.votingreloded.activity.StartActivity;
+import com.technosales.net.votingreloded.votingVisuallyImpaired.StartActivityVisual;
 
 public class AutoStartReceiver extends BroadcastReceiver {
 
@@ -12,7 +13,7 @@ public class AutoStartReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
-        Intent i = new Intent(context, StartActivity.class);  //MyActivity can be anything start on bootup...
+        Intent i = new Intent(context, StartActivityVisual.class);  //MyActivity can be anything start on bootup...
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
 

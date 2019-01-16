@@ -752,24 +752,26 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_8 && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
 
-            Log.i("ViewPosSize", "" + visualPosition + "::" + candidatesLists.size());
+            /*Log.i("ViewPosSize", "" + visualPosition + "::" + candidatesLists.size());
             if (((candidatesLists.size() - 1) - visualPosition) > -1 && (visualPosition - numberOfColumns) > -1 && !reachedMaxVisual) {
                 visualPosition = visualPosition - numberOfColumns;
 
                 scrollVisualPosition(visualPosition);
-
-            }
+                //for up
+            }*/
 
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_5 && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
-            if (visualPosition < (candidatesLists.size() - numberOfColumns) && !reachedMaxVisual) {
+           /* if (visualPosition < (candidatesLists.size() - numberOfColumns) && !reachedMaxVisual) {
                 visualPosition = visualPosition + numberOfColumns;
 
                 scrollVisualPosition(visualPosition);
 
-            }
+                ///for Down
+
+            }*/
 
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_4 && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
-            if (summaryListView.getVisibility() == View.GONE) {
+            if (summaryListView.getVisibility() == View.GONE && voting_cover_image.getVisibility() == View.GONE) {
 
                 if (visualPosition > 0 && !nextNprev && !reachedMaxVisual) {
                     visualPosition = visualPosition - 1;
@@ -784,7 +786,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
             }
 
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_6 && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
-            if (summaryListView.getVisibility() == View.GONE) {
+            if (summaryListView.getVisibility() == View.GONE && voting_cover_image.getVisibility() == View.GONE) {
                 if (visualPosition < candidatesLists.size() - 1 && !nextNprev && !reachedMaxVisual) {
                     visualPosition = visualPosition + 1;
 
