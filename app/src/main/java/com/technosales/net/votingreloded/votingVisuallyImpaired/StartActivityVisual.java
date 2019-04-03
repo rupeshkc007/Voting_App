@@ -33,8 +33,6 @@ public class StartActivityVisual extends AppCompatActivity implements View.OnCli
     private TextView dateTime;
     private SharedPreferences preferences;
     private boolean stagePassed;
-    private DatabaseHelper databaseHelper;
-    private int STORAGE_PERMISSION_CODE = 111;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +47,10 @@ public class StartActivityVisual extends AppCompatActivity implements View.OnCli
 
         /*creating ballot folder*/
         ballotDirectoryDevice = new File(UtilStrings.BALLOT_PATH_DEVICE);
-        ballotDirectoryCard = new File(UtilStrings.BALLOT_PATH_CARD);
+        ballotDirectoryCard = new File(UtilStrings.BALLOT_PATH_CARD());
 
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (!CheckAskPermission.isReadStorageAllowed(StartActivityVisual.this)) {
 
                 CheckAskPermission.askReadStorage(StartActivityVisual.this);
@@ -119,7 +117,7 @@ public class StartActivityVisual extends AppCompatActivity implements View.OnCli
 
                     preferences.edit().putBoolean(UtilStrings.STAGE_PASSED, true).apply();
                     GeneralUtils.createVoteTextFile(deviceNo, UtilStrings.BALLOT_PATH_DEVICE);
-                    GeneralUtils.createVoteTextFile(deviceNo, UtilStrings.BALLOT_PATH_CARD);
+                    GeneralUtils.createVoteTextFile(deviceNo, UtilStrings.BALLOT_PATH_CARD());
                     startActivity(new Intent(this, VotingActivityVisual.class));
                     finish();
                 } else {

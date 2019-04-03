@@ -214,7 +214,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
         postNameTxtView.setText(postName);
         if (selectCount == 0) {
-            String tts=postName + " " + getString(R.string.post_ma_max_selection_reached);
+            String tts = postName + " " + getString(R.string.post_ma_max_selection_reached);
             textToSpeech.speak(tts, TextToSpeech.QUEUE_FLUSH, null);
             selectCountTxt.setText("");
             postKaLaagi.setText(getString(R.string.post_ma_max_selection_reached));
@@ -454,7 +454,6 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
         dateHeader.setText(GeneralUtils.getDateOnly());
 
 
-
         if (databaseHelper.candidatesData() > 0) {
 
             voterCountTxt.setVisibility(View.VISIBLE);
@@ -607,7 +606,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
                 if (preferences.getInt(UtilStrings.VOTER_COUNT, 0) == 0) {
                     GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_DEVICE, "Start");
-                    GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_CARD, "Start");
+                    GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_CARD(), "Start");
                 }
 
                 if (summaryListView.getVisibility() == View.GONE && voting_cover_image.getVisibility() == View.GONE) {
@@ -709,9 +708,16 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
             /*insert data here*/
             Toast.makeText(this, UtilStrings.CANDIDATES_TXT_PATH, Toast.LENGTH_SHORT).show();
             if (databaseHelper.candidatesData() == 0 && databaseHelper.postsData() == 0) {
-                new InsertingDataFromTxt(this).insertCandidatesTxt();
-                if (CheckAskPermission.isReadStorageAllowed(VotingActivityVisual.this)){
-                    CheckAskPermission.askReadStorage(VotingActivityVisual.this);
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (CheckAskPermission.isReadStorageAllowed(VotingActivityVisual.this)) {
+
+                        CheckAskPermission.askReadStorage(VotingActivityVisual.this);
+                    } else {
+                        new InsertingDataFromTxt(this).insertCandidatesTxt();
+                    }
+                } else {
+                    new InsertingDataFromTxt(this).insertCandidatesTxt();
                 }
             } else {
                 AlertDialog.Builder builder;
@@ -738,7 +744,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
                                 voting_cover_image.setVisibility(View.VISIBLE);
                                 voting_cover_image.setImageResource(R.drawable.image1);
 
-                                GeneralUtils.deleteFilesInBallot(new File(UtilStrings.BALLOT_PATH_DEVICE), new File(UtilStrings.BALLOT_PATH_CARD));
+                                GeneralUtils.deleteFilesInBallot(new File(UtilStrings.BALLOT_PATH_DEVICE), new File(UtilStrings.BALLOT_PATH_CARD()));
 
 
                             }
@@ -960,7 +966,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
     public void goToResults() {
         GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_DEVICE, "End");
-        GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_CARD, "End");
+        GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_CARD(), "End");
 
         preferences.edit().putBoolean(UtilStrings.VOTE_STAGE_PASSED, true).apply();
         startActivity(new Intent(this, VoteResultsActivity.class));
@@ -1129,7 +1135,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
         }
         vote.clear();
         databaseHelper.writeToFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_DEVICE);
-        databaseHelper.writeToFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_CARD);
+        databaseHelper.writeToFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_CARD());
         pressedFinished = false;
         redOn(true);
         overLayout.setVisibility(View.GONE);
