@@ -46,6 +46,7 @@ import com.technosales.net.votingreloded.helper.DatabaseHelper;
 import com.technosales.net.votingreloded.pojoModels.CandidatesList;
 import com.technosales.net.votingreloded.pojoModels.SummaryList;
 import com.technosales.net.votingreloded.utils.BackgroundColor;
+import com.technosales.net.votingreloded.utils.CheckAskPermission;
 import com.technosales.net.votingreloded.utils.GeneralUtils;
 import com.technosales.net.votingreloded.utils.InsertingDataFromTxt;
 import com.technosales.net.votingreloded.utils.UtilStrings;
@@ -131,6 +132,17 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visual);
+
+
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(new Locale("nep"));
+                }
+            }
+        });
+        textToSpeech.setSpeechRate(Float.parseFloat("0.89"));
        /* try {
             // clearing app data
             String packageName = getApplicationContext().getPackageName();
@@ -145,10 +157,11 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
         databaseHelper.clearSummary();
 
-        smdtManager = SmdtManager.create(this);
+//        smdtManager = SmdtManager.create(this);
 
         greenOn(false);
         redOn(true);
+
 
         /*initial anim*/
         animationLtr = AnimationUtils.loadAnimation(this, R.anim.slide_ltr);
@@ -201,7 +214,8 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
         postNameTxtView.setText(postName);
         if (selectCount == 0) {
-            textToSpeech.speak(postName + " " + getString(R.string.post_ma_max_selection_reached), TextToSpeech.QUEUE_FLUSH, null);
+            String tts=postName + " " + getString(R.string.post_ma_max_selection_reached);
+            textToSpeech.speak(tts, TextToSpeech.QUEUE_FLUSH, null);
             selectCountTxt.setText("");
             postKaLaagi.setText(getString(R.string.post_ma_max_selection_reached));
             matadaanGarnuhos.setText(getString(R.string.wanna_change));
@@ -210,16 +224,16 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
             matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
             selectCountTxt.setText(String.valueOf(selectCount));
 
-            String ttsChar = postName + " " + getString(R.string.post_ma_kunai) + " " + String.valueOf(selectCount) + " " + getString(R.string.matadaan_garnuhos);
+            final String ttsChar = postName + " " + getString(R.string.post_ma_kunai) + " " + String.valueOf(selectCount) + " " + getString(R.string.matadaan_garnuhos);
             textToSpeech.speak(ttsChar, TextToSpeech.QUEUE_FLUSH, null);
 
-//            int ttsChar = postName.length() + getString(R.string.post_ma_kunai).length() + getString(R.string.matadaan_garnuhos).length() + 4;
+//            int String ttsChars = postName.length() + getString(R.string.post_ma_kunai).length() + getString(R.string.matadaan_garnuhos).length() + 4;
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (visualPosition < 0 && selectCount > 0)
-                        textToSpeech.speak(postName + " " + getString(R.string.post_ma_kunai) + " " + String.valueOf(selectCount) + " " + getString(R.string.matadaan_garnuhos), TextToSpeech.QUEUE_FLUSH, null);
+                        textToSpeech.speak(ttsChar, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, GeneralUtils.getDelayTime(ttsChar.length()));
         }
@@ -439,15 +453,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
         dateHeader.setText(GeneralUtils.getDateOnly());
 
-        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    textToSpeech.setLanguage(new Locale("nep"));
-                }
-            }
-        });
-        textToSpeech.setSpeechRate(Float.parseFloat("0.89"));
+
 
         if (databaseHelper.candidatesData() > 0) {
 
@@ -479,10 +485,10 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
     }
 
     public void onPause() {
-        if (textToSpeech != null) {
+       /* if (textToSpeech != null) {
             textToSpeech.stop();
             textToSpeech.shutdown();
-        }
+        }*/
         super.onPause();
     }
 
@@ -554,7 +560,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
         preferences = getSharedPreferences(UtilStrings.SHARED_PREFERENCES, 0);
         numberOfColumns = preferences.getInt(UtilStrings.NO_OF_COLUMNS, 0);
         voterCounter = preferences.getInt(UtilStrings.VOTER_COUNT, 0);
-        stageCompleted = preferences.getBoolean(UtilStrings.STAGE_COMPLETED, false);
+        stageCompleted = preferences.getBoolean(UtilStrings.VOTE_STAGE_PASSED, false);
 
         if (stageCompleted) {
             startActivity(new Intent(this, VoteResultsActivity.class));
@@ -701,9 +707,12 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_MULTIPLY && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
             /*insert data here*/
-
+            Toast.makeText(this, UtilStrings.CANDIDATES_TXT_PATH, Toast.LENGTH_SHORT).show();
             if (databaseHelper.candidatesData() == 0 && databaseHelper.postsData() == 0) {
                 new InsertingDataFromTxt(this).insertCandidatesTxt();
+                if (CheckAskPermission.isReadStorageAllowed(VotingActivityVisual.this)){
+                    CheckAskPermission.askReadStorage(VotingActivityVisual.this);
+                }
             } else {
                 AlertDialog.Builder builder;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -953,7 +962,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
         GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_DEVICE, "End");
         GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_CARD, "End");
 
-        preferences.edit().putBoolean(UtilStrings.STAGE_COMPLETED, true).apply();
+        preferences.edit().putBoolean(UtilStrings.VOTE_STAGE_PASSED, true).apply();
         startActivity(new Intent(this, VoteResultsActivity.class));
         finish();
     }
@@ -1373,11 +1382,11 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
     }
 
     private void greenOn(boolean onOff) {
-        smdtManager.smdtSetExtrnalGpioValue(4, !onOff);
+//        smdtManager.smdtSetExtrnalGpioValue(4, !onOff);
     }
 
     private void redOn(boolean onOff) {
-        smdtManager.smdtSetExtrnalGpioValue(3, !onOff);
+//        smdtManager.smdtSetExtrnalGpioValue(3, !onOff);
     }
 
 

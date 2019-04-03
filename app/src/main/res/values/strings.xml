@@ -9,7 +9,8 @@
     <string name="finised">सकियो</string>
     <string name="not_finised">सकिएको छैन</string>
     <string name="post_ma_kunai">पदमा कुनै</string>
-    <string name="matadaan_garnuhos">उम्मेद्वारलाई मतदान गर्नुहोस्</string>
+    <string name="matadaan_garnuhos">उम्मेद्वारलाई मतदान गर्नु होस </string>
+    <string name="matadaan_garna_baaki">उम्मेद्वारलाई मतदान गर्न अझैं बाँकी छ</string>
     <string name="prev">अघिल्लो</string>
     <string name="next">पछिल्लो</string>
     <string name="max_selection_reached">छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ |</string>

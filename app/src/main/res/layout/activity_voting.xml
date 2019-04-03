@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:layout_toLeftOf="@+id/ramLaxmanLogo"
+            android:layout_toRightOf="@+id/ramLaxmanLogo"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:layout_toRightOf="@+id/ramLaxmanLogo"
+            android:layout_toLeftOf="@+id/ramLaxmanLogo"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -180,6 +180,7 @@
         android:visibility="gone">
 
         <Button
+            android:visibility="gone"
             android:id="@+id/notFinished"
             android:layout_width="150dp"
             android:layout_height="150dp"

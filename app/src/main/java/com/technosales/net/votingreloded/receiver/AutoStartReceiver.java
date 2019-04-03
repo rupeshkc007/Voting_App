@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.technosales.net.votingreloded.activity.StartActivity;
 import com.technosales.net.votingreloded.votingVisuallyImpaired.StartActivityVisual;
 
 public class AutoStartReceiver extends BroadcastReceiver {

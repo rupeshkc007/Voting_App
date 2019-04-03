@@ -95,13 +95,11 @@ public class InsertingDataFromTxt {
                     String post_nepali = tokens[1];
                     String post_english = tokens[2];
                     int post_count = Integer.parseInt(tokens[3]);
-
-
                     databaseHelper.insertPosts(post_id, post_nepali, post_english, post_count);
 
                 }
                 GeneralUtils.shortMessage(context, context.getString(R.string.data_inserted));
-               /* ((VotingActivity) context).voting_cover_image.setImageResource(R.drawable.image2);
+                /*((VotingActivity) context).voting_cover_image.setImageResource(R.drawable.image2);
                 ((VotingActivity) context).voterCountTxt.setVisibility(View.VISIBLE);
                 ((VotingActivity) context).voterCountTxt.setText(context.getString(R.string.total_voters)+"0");*/
                 ((VotingActivityVisual) context).voting_cover_image.setImageResource(R.drawable.image2);

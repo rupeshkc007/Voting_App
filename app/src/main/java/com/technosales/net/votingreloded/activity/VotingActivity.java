@@ -92,8 +92,8 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
     private SmdtManager smdtManager;
 
 
-    private Animation animationLtr;
-    private Animation animationRtl;
+   /* private Animation animationLtr;
+    private Animation animationRtl;*/
 
     private LinearLayout postNameCountLayout;
     private TextView postNameTxtView;
@@ -134,8 +134,8 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         redOn(true);
 
         /*initial anim*/
-        animationLtr = AnimationUtils.loadAnimation(this, R.anim.slide_ltr);
-        animationRtl = AnimationUtils.loadAnimation(this, R.anim.slide_rtl);
+       /* animationLtr = AnimationUtils.loadAnimation(this, R.anim.slide_ltr);
+        animationRtl = AnimationUtils.loadAnimation(this, R.anim.slide_rtl);*/
 
         blinkingAnimation = new AlphaAnimation(0.0f, 1.0f);
         blinkingAnimation.setDuration(300);
@@ -182,9 +182,13 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
             selectCountTxt.setText("");
             postKaLaagi.setText(getString(R.string.post_ma_max_selection_reached));
             matadaanGarnuhos.setText(getString(R.string.wanna_change));
-        } else {
+        } else if (max == selectCount) {
             postKaLaagi.setText(getString(R.string.post_ma_kunai));
             matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
+            selectCountTxt.setText(String.valueOf(selectCount));
+        } else {
+            postKaLaagi.setText(getString(R.string.post_ma_kunai));
+            matadaanGarnuhos.setText(getString(R.string.matadaan_garna_baaki));
             selectCountTxt.setText(String.valueOf(selectCount));
         }
 
@@ -287,8 +291,12 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
                     selectCountTxt.setText(String.valueOf(selectCount));
                     postNameTxtView.setText(postName);
                     postKaLaagi.setText(getString(R.string.post_ma_kunai));
-                    matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
+                    if (selectCount == databaseHelper.getMax(postId)) {
 
+                        matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
+                    } else {
+                        matadaanGarnuhos.setText(getString(R.string.matadaan_garna_baaki));
+                    }
                     vote.put(candidatesId, "0");
                     databaseHelper.removeFromSummary(candidatesId);
 
@@ -300,7 +308,16 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
                     selectCountTxt.setText(String.valueOf(selectCount));
                     postNameTxtView.setText(postName);
                     postKaLaagi.setText(getString(R.string.post_ma_kunai));
-                    matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
+                    if (selectCount == databaseHelper.getMax(postId)) {
+
+                        matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
+                    } else if (selectCount == 0) {
+                        selectCountTxt.setText("");
+                        postKaLaagi.setText(getString(R.string.post_ma_max_selection_reached));
+                        matadaanGarnuhos.setText("");
+                    } else {
+                        matadaanGarnuhos.setText(getString(R.string.matadaan_garna_baaki));
+                    }
                     vote.put(candidatesId, "1");
                     databaseHelper.setSummary(postId, postName, canList.can_nep_name, candidatesId);
                     if (selectCount == 0) {
@@ -409,7 +426,6 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
             voterCountTxt.setText(getString(R.string.total_voters) + String.valueOf(voterCounter));
         }
         selectCountTxt.startAnimation(blinkingAnimation);
-        finished_btn.startAnimation(finishBlink);
         suryodayaFont = Typeface.createFromAsset(getAssets(), "fonts/Suryodaya.ttf");
         selectCountTxt.setTypeface(suryodayaFont);
 
@@ -444,8 +460,8 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
     private void previousList() {
         overLayout.setVisibility(View.GONE);
-        canContainer.startAnimation(animationLtr);
-        postNameCountLayout.startAnimation(animationLtr);
+       /* canContainer.startAnimation(animationLtr);
+        postNameCountLayout.startAnimation(animationLtr);*/
         postId--;
         getNameListFromPost(postId);
         previousBtn.postDelayed(new Runnable() {
@@ -476,8 +492,8 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
             }, 1500);
 
             nextBtn.setClickable(false);
-            canContainer.startAnimation(animationRtl);
-            postNameCountLayout.startAnimation(animationRtl);
+            /*canContainer.startAnimation(animationRtl);
+            postNameCountLayout.startAnimation(animationRtl);*/
         } else if (postId == databaseHelper.postsData() || summaryCorrection) {
             summaryCorrection = false;
             nextPrevContainer.setVisibility(View.GONE);
@@ -497,7 +513,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         preferences = getSharedPreferences(UtilStrings.SHARED_PREFERENCES, 0);
         numberOfColumns = preferences.getInt(UtilStrings.NO_OF_COLUMNS, 0);
         voterCounter = preferences.getInt(UtilStrings.VOTER_COUNT, 0);
-        stageCompleted = preferences.getBoolean(UtilStrings.STAGE_COMPLETED, false);
+        stageCompleted = preferences.getBoolean(UtilStrings.VOTE_STAGE_PASSED, false);
 
         if (stageCompleted) {
             startActivity(new Intent(this, VoteResultsActivity.class));
@@ -533,6 +549,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
                 }
             }
+            ///is data inserted
             if (databaseHelper.candidatesData() > 0 && databaseHelper.postsData() > 0) {
 
                 redOn(false);
@@ -560,6 +577,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
                         voting_cover_image.setVisibility(View.VISIBLE);
                         summaryListView.setVisibility(View.VISIBLE);
                         summaryCorrectionTxt.setVisibility(View.VISIBLE);
+                        overLayout.setVisibility(View.VISIBLE);
                         summaryListView.setAdapter(new SummaryAdaptar(databaseHelper.summaryLists(), this));
 
 //                        new Handler()
@@ -574,7 +592,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
                                     @Override
                                     public void run() {
                                         finishVoting();
-
+                                        overLayout.setVisibility(View.GONE);
                                         dateTime = GeneralUtils.getDateTime();
                                         voterCountTxt.setVisibility(View.GONE);
                                         voterCountTxt.setVisibility(View.GONE);
@@ -592,6 +610,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
 
                     }
+                    //safal vaayeko yaa abaa ready xa vanne condition
                 } else if (voting_cover_image.getVisibility() == View.VISIBLE && summaryListView.getVisibility() == View.GONE) {
                     overLayout.setVisibility(View.GONE);
                     clearPref();
@@ -602,6 +621,8 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
                     postId = 1;
                     nextPrevContainer.setVisibility(View.VISIBLE);
                     getNameListFromPost(postId);
+
+                    //sabai lai vote lagaako condition finish nagaareko
                 } else if (voting_cover_image.getVisibility() == View.VISIBLE && summaryListView.getVisibility() == View.VISIBLE) {
                     Bitmap takeScreen = takeScreenshot();
                     saveBitmap(takeScreen, dateTime);
@@ -703,7 +724,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_DEVICE, "End");
         GeneralUtils.createVoteStartEndTimeFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_CARD, "End");
 
-        preferences.edit().putBoolean(UtilStrings.STAGE_COMPLETED, true).apply();
+        preferences.edit().putBoolean(UtilStrings.VOTE_STAGE_PASSED, true).apply();
         startActivity(new Intent(this, VoteResultsActivity.class));
         finish();
     }
@@ -971,6 +992,4 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
     private void redOn(boolean onOff) {
         smdtManager.smdtSetExtrnalGpioValue(3, !onOff);
     }
-
-
 }

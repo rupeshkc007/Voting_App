@@ -46,7 +46,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         }
 
         viewsInitialization();
-
         setClickListener();
 
         /*creating ballot folder*/
