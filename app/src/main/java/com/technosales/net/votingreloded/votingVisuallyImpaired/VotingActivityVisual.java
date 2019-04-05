@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -706,19 +708,10 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
         } else if (keyCode == KeyEvent.KEYCODE_NUMPAD_MULTIPLY && event.getSource() == InputDevice.SOURCE_KEYBOARD) {
             /*insert data here*/
-            Toast.makeText(this, UtilStrings.CANDIDATES_TXT_PATH, Toast.LENGTH_SHORT).show();
+
             if (databaseHelper.candidatesData() == 0 && databaseHelper.postsData() == 0) {
+                new InsertingDataFromTxt(this).insertCandidatesTxt();
 
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    if (CheckAskPermission.isReadStorageAllowed(VotingActivityVisual.this)) {
-
-                        CheckAskPermission.askReadStorage(VotingActivityVisual.this);
-                    } else {
-                        new InsertingDataFromTxt(this).insertCandidatesTxt();
-                    }
-                } else {
-                    new InsertingDataFromTxt(this).insertCandidatesTxt();
-                }
             } else {
                 AlertDialog.Builder builder;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1396,4 +1389,9 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+
+    }
 }
