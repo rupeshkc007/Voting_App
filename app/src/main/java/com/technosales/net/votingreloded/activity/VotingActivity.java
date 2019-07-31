@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.technosales.net.votingreloded.R;
+import com.technosales.net.votingreloded.adapters.SummaryAdaptar;
 import com.technosales.net.votingreloded.helper.DatabaseHelper;
 import com.technosales.net.votingreloded.pojoModels.CandidatesList;
 import com.technosales.net.votingreloded.pojoModels.SummaryList;
@@ -60,7 +61,7 @@ import java.util.Map;
 import static com.technosales.net.votingreloded.helper.DatabaseHelper.POST_NAME_NEPALI;
 import static com.technosales.net.votingreloded.helper.DatabaseHelper.POST_TABLE;
 
-public class VotingActivity extends AppCompatActivity implements View.OnClickListener {
+public class VotingActivity extends AppCompatActivity implements View.OnClickListener, SummaryAdaptar.OnItemClick {
 
     private DatabaseHelper databaseHelper;
     private LinearLayout canContainer;
@@ -503,7 +504,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
             voting_cover_image.setImageResource(R.drawable.image3);
             summaryCorrectionTxt.setVisibility(View.VISIBLE);
             summaryListView.setVisibility(View.VISIBLE);
-            summaryListView.setAdapter(new SummaryAdaptar(databaseHelper.summaryLists(), this));
+            summaryListView.setAdapter(new SummaryAdaptar(databaseHelper.summaryLists(), this,numberOfColumns,this));
 
         }
 
@@ -578,7 +579,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
                         summaryListView.setVisibility(View.VISIBLE);
                         summaryCorrectionTxt.setVisibility(View.VISIBLE);
                         overLayout.setVisibility(View.VISIBLE);
-                        summaryListView.setAdapter(new SummaryAdaptar(databaseHelper.summaryLists(), this));
+                        summaryListView.setAdapter(new SummaryAdaptar(databaseHelper.summaryLists(), this,numberOfColumns,this));
 
 //                        new Handler()
 
@@ -892,104 +893,25 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    /*summary Adapter*/
-
-    public class SummaryAdaptar extends RecyclerView.Adapter<SummaryAdaptar.MyViewHolder> {
-        private List<SummaryList> summaryLists;
-        private Context context;
-
-        public SummaryAdaptar(List<SummaryList> summaryLists, Context context) {
-            this.summaryLists = summaryLists;
-            this.context = context;
-        }
-
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.summary_view, parent, false);
-
-            return new MyViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final MyViewHolder holder, final int position) {
-            final SummaryList summaryList = summaryLists.get(position);
-            holder.canName.setText(summaryList.getCanName() + ":" + summaryList.getPostNepali());
-//            holder.canName.setText(summaryList.getCanName() + "(" + summaryList.getPostNepali() + ")");
-            holder.swastikImage.setVisibility(View.VISIBLE);
-            GeneralUtils.canImagePath(summaryList.canId, holder.candidateImage);
-            BackgroundColor.setBackroundColor(context, summaryList.postId, holder.container);
-
-
-            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-            int width = displayMetrics.widthPixels / numberOfColumns;
-
-            LinearLayout.LayoutParams lp =
-                    new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (width * .45));
-            holder.imageContainer.setLayoutParams(lp);
-            holder.canName.setTextSize((float) (28 - (numberOfColumns * 1.5)));
-            Log.i("adapterList", "" + summaryLists.size());
-            holder.container.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!pressedFinished) {
-                        summaryCorrection = true;
-                        summaryListView.setVisibility(View.GONE);
-                        summaryCorrectionTxt.setVisibility(View.GONE);
-                        nextPrevContainer.setVisibility(View.VISIBLE);
-                        voting_cover_image.setVisibility(View.GONE);
-                        confirmationLayout.setVisibility(View.GONE);
-                        postId = summaryList.postId;
-                        getNameListFromPost(postId);
-                    }
-                }
-            });
-
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return summaryLists.size();
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return position;
-        }
-
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-
-            LinearLayout container;
-            LinearLayout imageContainer;
-            ImageView swastikImage;
-            ImageView candidateImage;
-            TextView canName;
-
-
-            public MyViewHolder(View itemView) {
-                super(itemView);
-
-
-                container = itemView.findViewById(R.id.container);
-                imageContainer = itemView.findViewById(R.id.imageContainer);
-                swastikImage = itemView.findViewById(R.id.swastikImage);
-                candidateImage = itemView.findViewById(R.id.candidateImage);
-                canName = itemView.findViewById(R.id.canName);
-
-
-            }
-        }
-
-
-    }
-
     private void greenOn(boolean onOff) {
         smdtManager.smdtSetExtrnalGpioValue(4, !onOff);
     }
 
     private void redOn(boolean onOff) {
         smdtManager.smdtSetExtrnalGpioValue(3, !onOff);
+    }
+
+    @Override
+    public void onItemClick(SummaryList summaryList) {
+        if (!pressedFinished) {
+            summaryCorrection = true;
+            summaryListView.setVisibility(View.GONE);
+            summaryCorrectionTxt.setVisibility(View.GONE);
+            nextPrevContainer.setVisibility(View.VISIBLE);
+            voting_cover_image.setVisibility(View.GONE);
+            confirmationLayout.setVisibility(View.GONE);
+            postId = summaryList.postId;
+            getNameListFromPost(postId);
+        }
     }
 }

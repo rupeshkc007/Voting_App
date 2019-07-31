@@ -1284,7 +1284,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
     /*summary Adapter*/
 
-    public class SummaryAdaptar extends RecyclerView.Adapter<SummaryAdaptar.MyViewHolder> {
+    private class SummaryAdaptar extends RecyclerView.Adapter<SummaryAdaptar.MyViewHolder> {
         private List<SummaryList> summaryLists;
         private Context context;
 
