@@ -99,12 +99,12 @@ public class InsertingDataFromTxt {
 
                 }
                 GeneralUtils.shortMessage(context, context.getString(R.string.data_inserted));
-                /*((VotingActivity) context).voting_cover_image.setImageResource(R.drawable.image2);
+                ((VotingActivity) context).voting_cover_image.setImageResource(R.drawable.image2);
                 ((VotingActivity) context).voterCountTxt.setVisibility(View.VISIBLE);
-                ((VotingActivity) context).voterCountTxt.setText(context.getString(R.string.total_voters)+"0");*/
-                ((VotingActivityVisual) context).voting_cover_image.setImageResource(R.drawable.image2);
+                ((VotingActivity) context).voterCountTxt.setText(context.getString(R.string.total_voters)+"0");
+                /*((VotingActivityVisual) context).voting_cover_image.setImageResource(R.drawable.image2);
                 ((VotingActivityVisual) context).voterCountTxt.setVisibility(View.VISIBLE);
-                ((VotingActivityVisual) context).voterCountTxt.setText(context.getString(R.string.total_voters) + "0");
+                ((VotingActivityVisual) context).voterCountTxt.setText(context.getString(R.string.total_voters) + "0");*/
 
             } catch (IOException e) {
                 e.printStackTrace();

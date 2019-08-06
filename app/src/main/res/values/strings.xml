@@ -13,6 +13,8 @@
     <string name="matadaan_garna_baaki">उम्मेद्वारलाई मतदान गर्न अझैं बाँकी छ</string>
     <string name="prev">अघिल्लो</string>
     <string name="next">पछिल्लो</string>
+    <string name="prevEng">अघिल्लो\nPrevious</string>
+    <string name="nextEng">पछिल्लो\nNext</string>
     <string name="max_selection_reached">छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ |</string>
     <string name="post_ma_max_selection_reached">पदमा छान्नुपर्ने अधिकतम संख्या पुगिसकेको छ |</string>
     <string name="wanna_change">मत सच्याउनु परेमा छाप लागेको कुनै उम्मेद्वारको नाममा पुन: थिच्नुहोस्</string>
@@ -24,5 +26,15 @@
     <string name="change_tts_vote">मत सच्याउनु परेमा पुन: भोटिंग बटन थिच्नुहोस्|</string>
     <string name="non_selected">तपाईंले कुनै पनि उम्मेदवार छान्नुभएको छैन |</string>
     <string name="matadaan_safal_vayo">तपाईंको मतदान सफल भयो|</string>
+    <string name="mandatory">Mandatory</string>
+    <string name="nonMand">Non Mandatory</string>
+    <string name="modeNrna">NRNA</string>
+    <string name="selectAny">Select Any\t</string>
+    <string name="candidatesForThePost">candidate(s) for the post\t</string>
+    <string name="eng_wanna_change">Press any selected candidate to change vote</string>
+    <string name="engMax_selection_reached">Maximum selection has reached</string>
+    <string name="engpost_ma_max_selection_reached">Maximum selection has reached for the post\t</string>
+    <string name="finisedEng">Finish</string>
+
 
 </resources>

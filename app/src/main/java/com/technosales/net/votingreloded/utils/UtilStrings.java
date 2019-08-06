@@ -20,6 +20,8 @@ public class UtilStrings {
     public static String NO_OF_COLUMNS = "no_of_columns";
     public static String STAGE_PASSED = "stage_passed";
     public static String VOTE_STAGE_PASSED = "stage_completed";
+    public static String MANDATORY = "mandatory";
+    public static String ENGLISH_NAME_DISPLAY = "eng_name_display";
 
     public static String VOTER_COUNT = "voter_count";
 

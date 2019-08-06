@@ -4,7 +4,28 @@ public class SummaryList {
     public SummaryList() {
     }
 
-    public String postNepali, canName, canId;
+    public String postNepali;
+    public String canName;
+    public String canId;
+    public String postEnglish;
+
+    public String getPostEnglish() {
+        return postEnglish;
+    }
+
+    public void setPostEnglish(String postEnglish) {
+        this.postEnglish = postEnglish;
+    }
+
+    public String getCanNameEnglish() {
+        return canNameEnglish;
+    }
+
+    public void setCanNameEnglish(String canNameEnglish) {
+        this.canNameEnglish = canNameEnglish;
+    }
+
+    public String canNameEnglish;
     public int postId;
 
     public String getPostNepali() {

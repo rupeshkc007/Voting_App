@@ -46,21 +46,43 @@
     </LinearLayout>
 
 
-    <RelativeLayout
+    <Button
+        android:id="@+id/clrData"
+        style="@style/startBtnStyles"
+        android:text="@string/clear_data" />
+
+    <LinearLayout
+        android:id="@+id/ll_typeElection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <Button
-            android:id="@+id/enterPass"
-            style="@style/startBtnStyles"
-            android:text="@string/enter" />
+            android:id="@+id/btn_mandatory"
+            style="@style/chooseBtnStyles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/mandatory" />
 
         <Button
-            android:id="@+id/clrData"
-            style="@style/startBtnStyles"
-            android:text="@string/clear_data" />
-    </RelativeLayout>
+            android:id="@+id/btn_nonMandatory"
+            style="@style/chooseBtnStyles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/nonMand" />
+
+        <Button
+            android:id="@+id/btn_nrna"
+            style="@style/chooseBtnStyles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/modeNrna" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

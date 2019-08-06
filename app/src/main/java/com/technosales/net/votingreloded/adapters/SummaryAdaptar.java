@@ -1,6 +1,7 @@
 package com.technosales.net.votingreloded.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.technosales.net.votingreloded.R;
 import com.technosales.net.votingreloded.pojoModels.SummaryList;
 import com.technosales.net.votingreloded.utils.BackgroundColor;
 import com.technosales.net.votingreloded.utils.GeneralUtils;
+import com.technosales.net.votingreloded.utils.UtilStrings;
 
 import java.util.List;
 
@@ -23,11 +25,13 @@ public class SummaryAdaptar extends RecyclerView.Adapter<SummaryAdaptar.MyViewHo
     private Context context;
     private int numberOfColumns;
     private OnItemClick onItemClick;
-    public interface OnItemClick{
+    private SharedPreferences preferences;
+
+    public interface OnItemClick {
         void onItemClick(SummaryList summaryList);
     }
 
-    public SummaryAdaptar(List<SummaryList> summaryLists, Context context,int numberOfColumns,OnItemClick onItemClick) {
+    public SummaryAdaptar(List<SummaryList> summaryLists, Context context, int numberOfColumns, OnItemClick onItemClick) {
         this.summaryLists = summaryLists;
         this.context = context;
         this.numberOfColumns = numberOfColumns;
@@ -46,7 +50,18 @@ public class SummaryAdaptar extends RecyclerView.Adapter<SummaryAdaptar.MyViewHo
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final SummaryList summaryList = summaryLists.get(position);
-        holder.canName.setText(summaryList.getCanName() + ":" + summaryList.getPostNepali());
+        preferences = context.getSharedPreferences(UtilStrings.SHARED_PREFERENCES, 0);
+
+
+        if (!preferences.getBoolean(UtilStrings.ENGLISH_NAME_DISPLAY, false)) {
+            holder.canName.setText(summaryList.getCanName() + ":" + summaryList.getPostNepali());
+        } else {
+            holder.canName.setText(summaryList.getCanName() + ":" + summaryList.getPostNepali() + "\n" +
+                    summaryList.getCanNameEnglish() + ":" + summaryList.getPostEnglish());
+
+        }
+
+
 //            holder.canName.setText(summaryList.getCanName() + "(" + summaryList.getPostNepali() + ")");
         holder.swastikImage.setVisibility(View.VISIBLE);
         GeneralUtils.canImagePath(summaryList.canId, holder.candidateImage);
@@ -65,7 +80,10 @@ public class SummaryAdaptar extends RecyclerView.Adapter<SummaryAdaptar.MyViewHo
             @Override
             public void onClick(View v) {
 
-                onItemClick.onItemClick(summaryList);
+                if (!preferences.getBoolean(UtilStrings.MANDATORY, false)) {
+                    onItemClick.onItemClick(summaryList);
+                }
+
 
             }
         });

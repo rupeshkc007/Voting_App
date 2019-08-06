@@ -79,6 +79,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
 
     private Button nextBtn, previousBtn;
     private String postName;
+    private String postNameEnglish;
     private int selectCount;
     private TextView voteInfoSelection;
     private View rootView;
@@ -208,6 +209,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
         candidatesListView.setAdapter(new CanAdapter(candidatesLists, this));
 
         postName = databaseHelper.getPost(post_id);
+        postNameEnglish = databaseHelper.getPostEnglish(post_id);
         int max = databaseHelper.getMax(post_id);
         selectCount = max;
         int savedCount = preferences.getInt(postName, selectCount);
@@ -340,7 +342,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
                         postKaLaagi.setText(getString(R.string.post_ma_kunai));
                         matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
                         vote.put(candidatesId, "1");
-                        databaseHelper.setSummary(postId, postName, canList.can_nep_name, candidatesId);
+                        databaseHelper.setSummary(postId, postName,postNameEnglish, canList.can_nep_name, canList.can_eng_name,candidatesId);
                         if (selectCount == 0) {
                             overLayout.setVisibility(View.VISIBLE);
 
@@ -859,7 +861,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
                             postKaLaagi.setText(getString(R.string.post_ma_kunai));
                             matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
                             vote.put(candidatesLists.get(pos).can_id, "1");
-                            databaseHelper.setSummary(postId, postName, candidatesLists.get(pos).can_nep_name, candidatesLists.get(pos).can_id);
+                            databaseHelper.setSummary(postId, postName,postNameEnglish, candidatesLists.get(pos).can_nep_name,candidatesLists.get(pos).can_eng_name, candidatesLists.get(pos).can_id);
 
                             if (selectCount == 0) {
 
@@ -1216,7 +1218,7 @@ public class VotingActivityVisual extends AppCompatActivity implements View.OnCl
                         postKaLaagi.setText(getString(R.string.post_ma_kunai));
                         matadaanGarnuhos.setText(getString(R.string.matadaan_garnuhos));
                         vote.put(canList.can_id, "1");
-                        databaseHelper.setSummary(postId, postName, canList.can_nep_name, canList.can_id);
+                        databaseHelper.setSummary(postId, postName,postNameEnglish, canList.can_nep_name,canList.can_eng_name, canList.can_id);
                         if (selectCount == 0) {
                             overLayout.setVisibility(View.VISIBLE);
 

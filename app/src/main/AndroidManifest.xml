@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".votingVisuallyImpaired.StartActivityVisual"
+            android:name=".activity.StartActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,9 +35,9 @@
         </receiver>
 
         <activity
-            android:name=".votingVisuallyImpaired.VotingActivityVisual"
+            android:name=".activity.VotingActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".votingVisuallyImpaired.VoteResultsActivity"/>
+        <activity android:name=".activity.VoteResultsActivity"/>
     </application>
 
 </manifest>

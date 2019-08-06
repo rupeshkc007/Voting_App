@@ -21,7 +21,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static String DATABASE_NAME = "votingDb";
-    public static int DB_VERSION = 1;
+    public static int DB_VERSION = 2;
 
     public static String CANDIDATES_TABLE = "candidates";
     public static String CANDIDATES_NAME_NEPALI = "can_nep_name";
@@ -41,7 +41,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String SUMMARY_TABLE = "summary";
     public static String SUMMARY_POST_ID = "sum_post_id";
     public static String SUMMARY_POST_NEPALI_NAME = "sum_post_nepali";
+    public static String SUMMARY_POST_ENGLISH_NAME = "sum_post_english";
     public static String SUMMARY_CAN_NEPALI_NAME = "sum_can_nepali";
+    public static String SUMMARY_CAN_ENGLISH_NAME = "sum_can_english";
     public static String SUMMARY_CAN_ID = "sum_can_id";
 
 
@@ -52,6 +54,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        createTables(db);
+
+
+    }
+
+    private void createTables(SQLiteDatabase db) {
         db.execSQL("create table " + CANDIDATES_TABLE +
                 "(id integer primary key autoincrement," +
                 CANDIDATES_NAME_NEPALI + " text," +
@@ -73,11 +81,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(id integer primary key autoincrement," +
                 SUMMARY_POST_ID + " integer," +
                 SUMMARY_POST_NEPALI_NAME + " text," +
+                SUMMARY_POST_ENGLISH_NAME + " text," +
                 SUMMARY_CAN_NEPALI_NAME + " text," +
+                SUMMARY_CAN_ENGLISH_NAME + " text," +
                 SUMMARY_CAN_ID + " text" +
                 ")"
         );
-
     }
 
     @Override
@@ -85,11 +94,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS candidates");
         db.execSQL("DROP TABLE IF EXISTS posts");
         db.execSQL("DROP TABLE IF EXISTS summary");
+        createTables(db);
     }
 
-
-
-
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS candidates");
+        db.execSQL("DROP TABLE IF EXISTS posts");
+        db.execSQL("DROP TABLE IF EXISTS summary");
+        createTables(db);
+    }
     /*inserting Queries*/
 
     public void insertCandidates(int post_id, String can_id, String nepaliName, String englishName, Integer vote) {
@@ -118,12 +132,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.i("InsertingData", "posts" + contentValues.toString());
     }
 
-    public void setSummary(int post_id, String postNepali, String canNepali, String canId) {
+    public void setSummary(int post_id, String postNepali, String postEnglish, String canNepali, String canEnglish, String canId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SUMMARY_POST_ID, post_id);
         contentValues.put(SUMMARY_POST_NEPALI_NAME, postNepali);
+        contentValues.put(SUMMARY_POST_ENGLISH_NAME, postEnglish);
         contentValues.put(SUMMARY_CAN_NEPALI_NAME, canNepali);
+        contentValues.put(SUMMARY_CAN_ENGLISH_NAME, canEnglish);
         contentValues.put(SUMMARY_CAN_ID, canId);
 
         db.insert(SUMMARY_TABLE, null, contentValues);
@@ -226,6 +242,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public String getPostEnglish(int postId) {
+        String data = "";
+        String sql = "SELECT " + POST_NAME_ENGLISH + " FROM " + POST_TABLE + " WHERE " + POST_ID + " =" + postId;
+
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            data = c.getString(c.getColumnIndex(POST_NAME_ENGLISH));
+        }
+        c.close();
+
+        return data;
+    }
+
     public int getMax(int postId) {
         int data = 0;
         String sql = "SELECT " + POST_COUNT + " FROM " + POST_TABLE + " WHERE " + POST_ID + " =" + postId;
@@ -248,7 +277,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SummaryList summaryList = new SummaryList();
             summaryList.setPostId(c.getInt(c.getColumnIndex(SUMMARY_POST_ID)));
             summaryList.setPostNepali(c.getString(c.getColumnIndex(SUMMARY_POST_NEPALI_NAME)));
+            summaryList.setPostEnglish(c.getString(c.getColumnIndex(SUMMARY_POST_ENGLISH_NAME)));
             summaryList.setCanName(c.getString(c.getColumnIndex(SUMMARY_CAN_NEPALI_NAME)));
+            summaryList.setCanNameEnglish(c.getString(c.getColumnIndex(SUMMARY_CAN_ENGLISH_NAME)));
             summaryList.setCanId(c.getString(c.getColumnIndex(SUMMARY_CAN_ID)));
             list.add(summaryList);
         }

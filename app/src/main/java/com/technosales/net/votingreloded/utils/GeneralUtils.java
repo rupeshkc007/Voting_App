@@ -161,4 +161,22 @@ public class GeneralUtils {
     public static long getDelayTime(int charLength) {
         return charLength / 12 * 1000 + 3000;
     }
+
+    public static int summaryColumnSpan(int size) {
+
+        if (size <= 18) {
+            return 3;
+        } else if (size > 18 && size <= 24) {
+            return 4;
+        } else if (size > 24 && size <= 40) {
+            return 5;
+        } else if (size > 40 && size <= 60) {
+            return 6;
+        } else if (size > 60 && size <= 80) {
+            return 7;
+        } else {
+            return 8;
+        }
+
+    }
 }

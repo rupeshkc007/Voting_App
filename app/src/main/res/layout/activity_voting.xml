@@ -52,63 +52,143 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/nepaliPostCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/postNameTxtView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:shadowColor="@color/white"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="2"
-                android:textColor="@color/matRed"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/postKaLaagi"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/postNameTxtView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:shadowColor="@color/white"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
+                    android:textColor="@color/matRed"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/postKaLaagi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/post_ma_kunai"
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:text="@string/post_ma_kunai"
-                android:textColor="@color/black"
-                android:textSize="25sp" />
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/selectCountTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:shadowColor="@color/white"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
+                    android:textColor="@color/matRed"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/matadaanGarnuhos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/matadaan_garnuhos"
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/englishPostCountLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/selectCountTxt"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:shadowColor="@color/white"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="2"
-                android:textColor="@color/matRed"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/selectAny"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/selectAny"
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
+                <TextView
+                    android:id="@+id/engSelectCountTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:shadowColor="@color/white"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
+                    android:textColor="@color/matRed"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/matadaanGarnuhos"
-                android:layout_width="wrap_content"
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:text="@string/matadaan_garnuhos"
-                android:textColor="@color/black"
-                android:textSize="25sp" />
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/candidatesForThePost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/candidatesForThePost"
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
+                <TextView
+                    android:id="@+id/engPostNameTxtView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:shadowColor="@color/white"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
+                    android:textColor="@color/matRed"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -180,7 +260,6 @@
         android:visibility="gone">
 
         <Button
-            android:visibility="gone"
             android:id="@+id/notFinished"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -189,7 +268,8 @@
             android:text="@string/not_finised"
             android:textColor="@color/white"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/yesFinished"
@@ -232,8 +312,8 @@
             android:id="@+id/nextBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
             android:background="@drawable/next_prev_bg"
             android:drawableRight="@drawable/ic_next"
@@ -265,8 +345,8 @@
     <include
         layout="@layout/input_password"
         android:layout_width="match_parent"
-        android:layout_margin="100dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:layout_margin="100dp"
+        android:visibility="gone" />
 </RelativeLayout>
