@@ -101,8 +101,8 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
     private TextView engPostNameTxtView;
     private TextView candidatesForThePostTxtView;
     private TextView postKaLaagi;
-    private TextView selectCountTxt,engSelectCountTxt;
-    private TextView matadaanGarnuhos,selectAny;
+    private TextView selectCountTxt, engSelectCountTxt;
+    private TextView matadaanGarnuhos, selectAny;
     private Animation blinkingAnimation;
     private Typeface suryodayaFont;
     private LinearLayout overLayout;
@@ -133,7 +133,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
         databaseHelper.clearSummary();
 
-        smdtManager = SmdtManager.create(this);
+//        smdtManager = SmdtManager.create(this);
 
         greenOn(false);
         redOn(true);
@@ -185,13 +185,13 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         if (mandatory) {
             nextPrevContainer.setVisibility(View.GONE);
         }
-        if (englishNameDisplay){
+        if (englishNameDisplay) {
             englishPostCountLayout.setVisibility(View.VISIBLE);
-            summaryCorrectionTxt.setText(getString(R.string.wanna_change)+"\n"+getString(R.string.eng_wanna_change));
-            finished_btn.setText(getString(R.string.finised)+"\n"+getString(R.string.finisedEng));
+            summaryCorrectionTxt.setText(getString(R.string.wanna_change) + "\n" + getString(R.string.eng_wanna_change));
+            finished_btn.setText(getString(R.string.finised) + "\n" + getString(R.string.finisedEng));
             nextBtn.setText(getString(R.string.nextEng));
             previousBtn.setText(getString(R.string.prevEng));
-        }else {
+        } else {
             englishPostCountLayout.setVisibility(View.GONE);
         }
 
@@ -288,10 +288,10 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
         GeneralUtils.canImagePath(candidatesId, candidateImage);
 
-        if (englishNameDisplay){
+        if (englishNameDisplay) {
 
-            candidateName.setText(canList.can_nep_name+"\n"+canList.can_eng_name);
-        }else {
+            candidateName.setText(canList.can_nep_name + "\n" + canList.can_eng_name);
+        } else {
             candidateName.setText(canList.can_nep_name);
 
         }
@@ -370,7 +370,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
                         selectAny.setText(getString(R.string.selectAny));
                     }
                     vote.put(candidatesId, "1");
-                    databaseHelper.setSummary(postId, postName,postNameEnglish, canList.can_nep_name,canList.can_eng_name, candidatesId);
+                    databaseHelper.setSummary(postId, postName, postNameEnglish, canList.can_nep_name, canList.can_eng_name, candidatesId);
                     if (selectCount == 0) {
                         if (mandatory) {
                             nextPrevContainer.setVisibility(View.VISIBLE);
@@ -431,7 +431,12 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         toast.setView(textview);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.show();
-        textview.setText(R.string.max_selection_reached);
+        if (englishNameDisplay){
+            textview.setText(R.string.max_selection_reached+"\n"+R.string.engMax_selection_reached);
+        }else {
+            textview.setText(R.string.max_selection_reached);
+
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -569,9 +574,9 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
             setSummaryAdapter();
 
-            if (!mandatory){
+            if (!mandatory) {
                 confirmationLayout.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 confirmationLayout.setVisibility(View.GONE);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -588,7 +593,6 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }, 500);
             }
-
 
 
         }
@@ -867,7 +871,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
     private void clearPref() {
 
         SQLiteDatabase databases = databaseHelper.getWritableDatabase();
-        Cursor c = databases.rawQuery("select * from " + POST_TABLE, null);
+        Cursor c = databases.rawQuery("SELECT * FROM " + POST_TABLE, null);
 
         while (c.moveToNext()) {
 
@@ -981,11 +985,11 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void greenOn(boolean onOff) {
-        smdtManager.smdtSetExtrnalGpioValue(4, !onOff);
+//        smdtManager.smdtSetExtrnalGpioValue(4, !onOff);
     }
 
     private void redOn(boolean onOff) {
-        smdtManager.smdtSetExtrnalGpioValue(3, !onOff);
+//        smdtManager.smdtSetExtrnalGpioValue(3, !onOff);
     }
 
     @Override
@@ -1003,11 +1007,9 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setSummaryAdapter() {
-          GridLayoutManager gridLayoutManagers = new GridLayoutManager(this, GeneralUtils.summaryColumnSpan(databaseHelper.summaryLists().size()));
+        GridLayoutManager gridLayoutManagers = new GridLayoutManager(this, GeneralUtils.summaryColumnSpan(databaseHelper.summaryLists().size()));
         summaryListView.setLayoutManager(gridLayoutManagers);
         summaryListView.setHasFixedSize(true);
-
-
         summaryListView.setAdapter(new SummaryAdaptar(databaseHelper.summaryLists(), this, GeneralUtils.summaryColumnSpan(databaseHelper.summaryLists().size()), this));
 
     }

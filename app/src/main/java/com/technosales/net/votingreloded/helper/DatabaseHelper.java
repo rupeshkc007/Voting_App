@@ -202,7 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String sql = "update " + CANDIDATES_TABLE + " set votes = votes+" + count + " where can_id ='" + can_id + "'";
         Log.i("sql", "sql:" + sql);
-        getWritableDatabase().execSQL(sql);
+//        getWritableDatabase().execSQL(sql);
 
 
     }
