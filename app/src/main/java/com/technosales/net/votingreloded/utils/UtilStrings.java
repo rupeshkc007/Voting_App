@@ -33,19 +33,17 @@ public class UtilStrings {
     public static final int WRITE_STORAGE_CODE = 400;
 
 
-    public static final String VOTINGMACHINE_FOLDER_PATH() {
+    public static String VOTINGMACHINE_FOLDER_PATH() {
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             return Environment.getExternalStorageDirectory() + "/votingmachine/";
         } else if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
             return "/storage/extsd/votingmachine/";
-        } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        } else {
             return "/mnt/extsd/votingmachine/";
         }
-
-        return "";
     }
 
-    public static final String BALLOT_PATH_CARD() {
+    public static String BALLOT_PATH_CARD() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return "/storage/extsd/votingmachine/ballot";
         } else {
