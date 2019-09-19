@@ -288,6 +288,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public int summaryPostCount(int postId) {
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        String sql = "SELECT * FROM " + SUMMARY_TABLE + " where " + SUMMARY_POST_ID + " =" + postId;
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+
+        while (c.moveToNext()) {
+            stringArrayList.add(c.getString(c.getColumnIndex(SUMMARY_CAN_ID)));
+        }
+        c.close();
+        return stringArrayList.size();
+    }
+
+    public int getPostMaxCount(int postId) {
+        int count = 0;
+        String sql = "SELECT " + POST_COUNT + " FROM " + POST_TABLE + " WHERE " + POST_ID + " =" + postId;
+        Cursor c = getWritableDatabase().rawQuery(sql, null);
+
+        while (c.moveToNext()) {
+            count = (c.getInt(c.getColumnIndex(POST_COUNT)));
+        }
+        c.close();
+        return count;
+
+    }
+
 
     public List<PostList> postLists() {
         String sql = "SELECT * FROM " + POST_TABLE;

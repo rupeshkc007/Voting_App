@@ -188,7 +188,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         if (englishNameDisplay) {
             englishPostCountLayout.setVisibility(View.VISIBLE);
             summaryCorrectionTxt.setText(getString(R.string.wanna_change) + "\n" + getString(R.string.eng_wanna_change));
-            finished_btn.setText(getString(R.string.finised) + "\n" + getString(R.string.finisedEng));
+            finished_btn.setText(getString(R.string.finishedEng));
             nextBtn.setText(getString(R.string.nextEng));
             previousBtn.setText(getString(R.string.prevEng));
         } else {
@@ -234,7 +234,6 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         canContainer.removeAllViews();
 
         canContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        Log.i("CanmodelSize", "CanmodelSize:" + candidatesLists.size());
         for (int i = 0; i < value; i++) {
             LinearLayout itemsLayout = new LinearLayout(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -274,7 +273,6 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
 
     public View getView(int i) {
-        Log.i("getVIew", i + "");
         final CandidatesList canList = candidatesLists.get(i);
 
         final String candidatesId = canList.can_id;
@@ -414,12 +412,6 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         view.getLocalVisibleRect(rectf);
         view.getGlobalVisibleRect(rectf);
 
-        Log.d("WIDTH        :", String.valueOf(rectf.width()));
-        Log.d("HEIGHT       :", String.valueOf(rectf.height()));
-        Log.d("left         :", String.valueOf(rectf.left));
-        Log.d("right        :", String.valueOf(rectf.right));
-        Log.d("top          :", String.valueOf(rectf.top));
-        Log.d("bottom       :", String.valueOf(rectf.bottom));
 
         final Toast toast = new Toast(VotingActivity.this);
         toast.setGravity(Gravity.TOP, 0, rectf.top);
@@ -489,7 +481,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         if (databaseHelper.candidatesData() > 0) {
 
             voterCountTxt.setVisibility(View.VISIBLE);
-            voterCountTxt.setText(getString(R.string.total_voters) + String.valueOf(voterCounter));
+            voterCountTxt.setText(getString(R.string.total_voters) + voterCounter);
         }
         selectCountTxt.startAnimation(blinkingAnimation);
         engSelectCountTxt.startAnimation(blinkingAnimation);
@@ -543,7 +535,6 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void nextList() {
-        Log.i("hashmap", vote + "");
         overLayout.setVisibility(View.GONE);
 
         if (postId < databaseHelper.postsData() && !summaryCorrection) {
@@ -967,12 +958,23 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         voterCounter++;
         preferences.edit().putInt(UtilStrings.VOTER_COUNT, voterCounter).apply();
         voterCountTxt.setVisibility(View.VISIBLE);
-        voterCountTxt.setText(getString(R.string.total_voters) + String.valueOf(voterCounter));
-
+        voterCountTxt.setText(getString(R.string.total_voters) + voterCounter);
+        String keyId = "";
         for (Map.Entry<String, String> entry : vote.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            databaseHelper.updateVoteCount(Integer.parseInt(value), key);
+            if (!mandatory) {
+                databaseHelper.updateVoteCount(Integer.parseInt(value), key);
+                keyId = keyId + "," + key;
+            } else {
+                if (value.equals("1")) {
+                    keyId = keyId + "," + key;
+                    String subKey = key.substring(0, 2);
+                    if (databaseHelper.summaryPostCount(Integer.parseInt(subKey)) == databaseHelper.getPostMaxCount(Integer.parseInt(subKey))) {
+                        databaseHelper.updateVoteCount(Integer.parseInt(value), key);
+                    }
+                }
+            }
         }
         vote.clear();
         databaseHelper.writeToFile(preferences.getString(UtilStrings.DEVICE_NUMBER, ""), UtilStrings.BALLOT_PATH_DEVICE);

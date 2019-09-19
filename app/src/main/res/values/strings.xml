@@ -34,7 +34,7 @@
     <string name="eng_wanna_change">Press any selected candidate to change vote</string>
     <string name="engMax_selection_reached">Maximum selection has reached</string>
     <string name="engpost_ma_max_selection_reached">Maximum selection has reached for the post\t</string>
-    <string name="finisedEng">Finish</string>
+    <string name="finishedEng">सकियो\nFinish</string>
 
 
 </resources>
